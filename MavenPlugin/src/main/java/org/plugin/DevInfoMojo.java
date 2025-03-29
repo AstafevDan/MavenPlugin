@@ -47,17 +47,21 @@ public class DevInfoMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         List<Developer> developers = project.getDevelopers();
-        getLog().info("Information about project's developers\n");
-        developers.stream()
-                .filter(developer -> ((org == null || org.isEmpty()) || org.equals(developer.getOrganization())))
-                .forEach(developer -> {
-                    getLog().info("Developer ID: " + developer.getId());
-                    getLog().info("Name: " + developer.getName());
-                    getLog().info("Email: " + developer.getEmail());
-                    getLog().info("URL: " + developer.getUrl());
-                    getLog().info("Organization: " + developer.getOrganization());
-                    getLog().info("Organization URL: " + developer.getOrganizationUrl());
-                    getLog().info("Roles: " + developer.getRoles() + "\n");
-                });
+        if (developers == null || developers.isEmpty()) {
+            getLog().info("No developers found");
+        } else {
+            getLog().info("Information about project's developers\n");
+            developers.stream()
+                    .filter(developer -> ((org == null || org.isEmpty()) || org.equals(developer.getOrganization())))
+                    .forEach(developer -> {
+                        getLog().info("Developer ID: " + developer.getId());
+                        getLog().info("Name: " + developer.getName());
+                        getLog().info("Email: " + developer.getEmail());
+                        getLog().info("URL: " + developer.getUrl());
+                        getLog().info("Organization: " + developer.getOrganization());
+                        getLog().info("Organization URL: " + developer.getOrganizationUrl());
+                        getLog().info("Roles: " + developer.getRoles() + "\n");
+                    });
+        }
     }
 }
