@@ -1,5 +1,6 @@
 package org.plugin;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.model.Developer;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -52,7 +53,7 @@ public class DevInfoMojo extends AbstractMojo {
         } else {
             getLog().info("Information about project's developers\n");
             developers.stream()
-                    .filter(developer -> ((org == null || org.isEmpty()) || org.equals(developer.getOrganization())))
+                    .filter(developer -> (StringUtils.isBlank(org) || StringUtils.equals(org, developer.getOrganization())))
                     .forEach(developer -> {
                         getLog().info("Developer ID: " + developer.getId());
                         getLog().info("Name: " + developer.getName());
@@ -62,6 +63,7 @@ public class DevInfoMojo extends AbstractMojo {
                         getLog().info("Organization URL: " + developer.getOrganizationUrl());
                         getLog().info("Roles: " + developer.getRoles() + "\n");
                     });
+
         }
     }
 }
